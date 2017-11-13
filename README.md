@@ -1,6 +1,10 @@
 # Project Ludwig: Music Generation through Deep Learning
 ---
-![Beethoven](https://github.com/guangyic/projectludwig/blob/master/siteelements/beethoven.png)
+```html
+<center>
+<img src="https://github.com/guangyic/projectludwig/blob/master/siteelements/beethoven.png?raw=true"style="width:200px;height:300px;">
+</center>
+```
 ---
 # Preparation
 1. Create a folder named "midi" in your working directory
