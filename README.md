@@ -1,5 +1,7 @@
 # Project Ludwig: Music Generation through Deep Learning
 ---
+![Beethoven](https://github.com/guangyic/projectludwig/blob/master/siteelements/beethoven.png)
+---
 # Preparation
 1. Create a folder named "midi" in your working directory
 2. These scripts were written in a Linux environment in macOS High Sierra. I used Python 2.7.14. If you are using Windows, ensure that the commands that reference directories use ' / ' instead of ' \ ' (I have some of these filled in here and there when I used my Windows PC to train my model)
