@@ -1,10 +1,8 @@
 # Project Ludwig: Music Generation through Deep Learning
 ---
-```html
-<center>
-<img src="https://github.com/guangyic/projectludwig/blob/master/siteelements/beethoven.png?raw=true"style="width:200px;height:300px;">
-</center>
-```
+
+![Beethoven](https://github.com/guangyic/projectludwig/blob/master/siteelements/beethoven.png?raw=true=100x150)
+
 ---
 # Preparation
 1. Create a folder named "midi" in your working directory
@@ -35,3 +33,33 @@
 - [NumPy](http://www.numpy.org)
 - [PyGame](https://www.pygame.org/news)
 - [TensorFlow](https://www.tensorflow.org)
+
+---
+# Implementation
+
+## Step 1: Reading & Converting
+
+## Step 2: Training the Model
+
+### Model
+The model uses Keras with a TensorFlow backend. I found that a three-layer LSTM model works best in terms of rate of convergence. This is modified text from the Keras documentation for text generation, as what we are accomplishing here is very similar.
+
+```python
+model = Sequential()
+model.add(LSTM(128, return_sequences=True, input_shape=(bars, N_values)))
+model.add(LSTM(128, return_sequences=True))
+model.add(LSTM(128, return_sequences=False))
+model.add(Dropout(0.2))
+model.add(Dense(N_values))
+model.add(Activation('softmax'))
+
+model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    
+model.fit(X, y, batch_size=128, nb_epoch=epochs)
+model.save('model_music_gen.h5')
+```
+
+## Step 3: Prediction & Production
+
+---
+# Results
