@@ -106,25 +106,53 @@ indices_val = dict((i, v) for i, v in enumerate(values))
 
 ### _Step 2: Training the Model_
 
+#### Preparing for the Model
 
+Now that the music is in a Python-readable format, it needs to turn into a format that models understand. Generally, models will accept matrices comprised of either booleans or scalar values. As there is a mixture of both categorical and continuous variables, I opted to use the boolean method.
+
+After getting the dimensions of the data that needs to be fed into the model, I formatted the X and y variables into the correct shape and then populated it with the respective boolean values corresponding to the type of note/chord as well as the duration and interval distances. 
+
+```python
+X = np.zeros((len(sentences), bars, N_values), dtype=np.bool)
+y = np.zeros((len(sentences), N_values), dtype=np.bool)
+    
+for i, sentence in enumerate(sentences):
+    for t, val in enumerate(sentence):
+        X[i, t, val_indices[val]] = 1
+        y[i, val_indices[next_values[i]]] = 1
+```
 
 #### Model
 The model uses Keras with a TensorFlow backend. I found that a three-layer LSTM model works best in terms of rate of convergence. This is modified text from the Keras documentation for text generation, as what we are accomplishing here is very similar.
 
+I use a default of 700 epochs for training - depending on how much music is fed in, this number may need to increase or can be decreased.
+
 ```python
+# Create the LSTM model and create the layers
 model = Sequential()
 model.add(LSTM(128, return_sequences=True, input_shape=(bars, N_values)))
 model.add(LSTM(128, return_sequences=True))
 model.add(LSTM(128, return_sequences=False))
+
+# Add a dropout layer to provide some regularization
 model.add(Dropout(0.2))
+
+# Add a fully-connected dense layer with a softmax activation
+# Use softmax because we want the probailities to add up to 1
 model.add(Dense(N_values))
 model.add(Activation('softmax'))
 
+# Compile the model
+# RMSprop converges faster than the other optimizers (adadelta is next fastest)
+# Categorical_crossentropy loss function allows faster convergence without the slowdown in learning inherent in other
+# loss functions
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
-    
+
+# Fit the model, then save it    
 model.fit(X, y, batch_size=128, nb_epoch=epochs)
 model.save('model_music_gen.h5')
 ```
+__Disclaimer:__ Again, depending on the length of the piece(s) and their complexity, training to convergence can take anywhere from 4 seconds per epoch up to close to 60 seconds per epoch. If you have access to a cloud GPU or your own CUDA-enabled GPU, this will speed up training significantly. 
 
 ### _Step 3: Prediction & Production_
 
