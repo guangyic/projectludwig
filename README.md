@@ -25,7 +25,6 @@
 - datetime
 - itertools
 - os
-- pdb
 - pickle
 - random
 - sys
@@ -41,7 +40,44 @@
 ---
 ## __Implementation__
 
+### _Step 0: Get some MIDIs_
+
+If you do not have a ready source of MIDIs to train, or want to try something else other than what I have provided in my Github, feel free to look at some of the following:
+1. [Classical Archives](https://www.classicalarchives.com/midi.html)
+2. [Free MIDI (pop sub-section)](https://freemidi.org/genre-pop)
+3. [Kunst der Fuge](http://www.kunstderfuge.com/beethoven/chamber.htm)
+4. [MIDI World (pop sub-section)](http://www.midiworld.com/search/?q=pop)
+5. [Piano MIDI](http://www.piano-midi.de)
+
+As mentioned above, ensure that these files are placed inside a folder named "midi" in your working directory.
+
 ### _Step 1: Reading & Converting_
+
+Before anything can be done, we need to first convert the MIDI to a Python-readable format. In order to do this, I use music21.converter and move everything into a dictionary.
+
+```python
+# Parse the MIDI data for separate melody and accompaniment parts, then flatten the parts into one line
+midi_data = converter.parse(data)
+midi_data_flat = midi_data.flat
+
+# Extracts the time signature and the metronome marking from the MIDI
+timesig = midi_data_flat.getElementsByClass(meter.TimeSignature)[0]
+mmark = midi_data_flat.getElementsByClass(tempo.MetronomeMark)[0]
+
+# Extracts the notes and chords from the MIDI        
+notes = midi_data_flat.getElementsByClass(note.Note).notes
+chords = midi_data_flat.getElementsByClass(chord.Chord)
+
+# Extracts the temporal offsets of the notes and chords from the MIDI                
+notes_offsets = [a.offset for a in notes]
+chords_offsets = [b.offset for b in chords]
+ 
+# Stores in the dictionary      
+dictionary[str(training_set[n])] = {"notes":notes, "notes_offsets":notes_offsets, "chords":chords, "chords_offsets":chords_offsets, "timesig":timesig, "metronome":mmark}}
+```
+
+#### Chord and Note Variables
+When looking in the dictionary, the notes will appear in the following format:
 
 ```python
 "C,0.250,<P4,m-2>"
@@ -57,7 +93,20 @@ The second variable indicates the duration of the note in relation to the bar. I
 
 Finally, the last set of variables indicates the maximum distance (higher, then lower) the note/chord is relative to the previous note/chord. 
 
+After the music has been turned into Python-readable data, I convert the data into sets and dictionaries in preparation for feeding the music into a neural network.
+
+```python
+# Excerpt of converting the list of music variables 
+grouped_string = "".join(theory_list_fin)
+corpus = grouped_string.split(' ')
+values = set(corpus)
+val_indices = dict((v, i) for i, v in enumerate(values))
+indices_val = dict((i, v) for i, v in enumerate(values))
+```
+
 ### _Step 2: Training the Model_
+
+
 
 #### Model
 The model uses Keras with a TensorFlow backend. I found that a three-layer LSTM model works best in terms of rate of convergence. This is modified text from the Keras documentation for text generation, as what we are accomplishing here is very similar.
@@ -85,3 +134,8 @@ model.save('model_music_gen.h5')
 
 ## Areas for Improvement
 Currently, this model and code makes the assumption that the time and key signature of the piece is constant. With pieces that involve temporal or key modulation, this could lead to odd syncopation in the production of the original music, or to sequences of notes that do not necessarily make sense from a music theory standpoint. 
+
+I extract the time signature and metronome markings, but at the moment, do not use it for anything. Future versions will find a way to incorporate these into the generations. 
+
+---
+## Conclusion
