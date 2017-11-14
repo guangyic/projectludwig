@@ -73,7 +73,8 @@ notes_offsets = [a.offset for a in notes]
 chords_offsets = [b.offset for b in chords]
  
 # Stores in the dictionary      
-dictionary[str(training_set[n])] = {"notes":notes, "notes_offsets":notes_offsets, "chords":chords, "chords_offsets":chords_offsets, "timesig":timesig, "metronome":mmark}}
+dictionary[str(training_set[n])] = {"notes":notes, "notes_offsets":notes_offsets, "chords":chords,
+"chords_offsets":chords_offsets, "timesig":timesig, "metronome":mmark}}
 ```
 
 #### Chord and Note Variables
@@ -155,6 +156,9 @@ model.save('model_music_gen.h5')
 __Disclaimer:__ Again, depending on the length of the piece(s) and their complexity, training to convergence can take anywhere from 4 seconds per epoch up to close to 60 seconds per epoch. If you have access to a cloud GPU or your own CUDA-enabled GPU, this will speed up training significantly. 
 
 ### _Step 3: Prediction & Production_
+Once the model has finished training, music generation can begin! 
+
+In order to do this, the predictions from the model have to move from Python-readbale format to MIDI. 
 
 ---
 ## __Results__
