@@ -10,7 +10,7 @@
 ---
 ## __Preparation__
 1. Create a folder named "midi" in your working directory
-2. These scripts were written in a Linux environment in macOS High Sierra. I used Python 2.7.14. If you are using Windows, ensure that the commands that reference directories use ' / ' instead of ' \ ' (I have some of these filled in here and there when I used my Windows PC to train my model)
+2. These scripts were written in a Linux environment in macOS High Sierra. I used Python 2.7.14. If you are using Windows, ensure that the commands that reference directories use ' / ' instead of ' \ ' (I have some of these filled in here and there from when I used my Windows PC to train my model)
 3. Ensure that you have all of the following scripts: 
 	* main.py
 	* extract.py
@@ -158,14 +158,65 @@ __Disclaimer:__ Again, depending on the length of the piece(s) and their complex
 ### _Step 3: Prediction & Production_
 Once the model has finished training, music generation can begin! 
 
-In order to do this, the predictions from the model have to move from Python-readbale format to MIDI. 
+In order to do this, the predictions from the model have to move back from Python-readable format to MIDI. At the moment, the output focuses on the chords from the original music in order to make predictions.
+
+```python
+# set up audio stream for generated music
+out_stream = stream.Stream()
+
+# Generation loop
+
+# Establish the offset of each note/chord (starts at 0)
+curr_offset = 0.0
+loopEnd = len(giant_piece_chords)
+
+# Create a music21 stream of the chords from the original music
+curr_chords_master = stream.Voice()
+for loopIndex in range(loopEnd):
+    # get chords from file
+    curr_chords_master.insert((giant_piece_chords_offsets[loopIndex].offset 
+                               % 4), giant_piece_chords[loopIndex])
+
+# The number of bars the output song will be
+midi_loop_duration = 24
+
+# This will create a list of random chords from the original music
+# Using these chords, the model will predict which notes will
+# follow based on the previous notes/chords
+random_chord_picker = random.sample(range(loopEnd), midi_loop_duration)
+```
+
+Once this is done, a series of functions will take over to generate rests, chords, and notes based on the model. As these are done, another group of functions will remove notes or chords that are repeated or too close together (which creates dissonant sound). 
+
+Finally, the music21 notation can be played with PyPlayer and then exported to MIDI format.
+
+```python
+# Play the final stream through output (see 'play' lambda function below)
+play = lambda x: midi.realtime.StreamPlayer(x).play()
+play(out_stream)
+
+# Export music as MIDI
+mf = midi.translate.streamToMidiFile(out_stream)
+mf.open(out_fn, 'wb')
+mf.write()
+mf.close()
+```
 
 ---
 ## __Results__
+
+I have uploaded some of the outputs that I produced using the Beethoven sonatas onto SoundCloud. I completed these with 700 epochs. 
+
 [![SoundCloud](https://github.com/guangyic/projectludwig/blob/master/siteelements/soundcloud.png?raw=true)](https://soundcloud.com/guang-yi-chua/sets/project-ludwig-output)
 
-## Areas for Improvement
+MuseScore also allows you to view the output in standard musical notation (should there be any interest in attempting to play this in real life).
+
+![Music Output](https://github.com/guangyic/projectludwig/blob/master/siteelements/output_music.png?raw=true)
+
+### Areas for Improvement
 Currently, this model and code makes the assumption that the time and key signature of the piece is constant. With pieces that involve temporal or key modulation, this could lead to odd syncopation in the production of the original music, or to sequences of notes that do not necessarily make sense from a music theory standpoint. 
+
+The current musical output is intended for piano. Looking at the sample output above, it would appear that the model does not yet know how to discriminate what is playable by human hands in terms of range and interval distance. I am not sure if this can be improved at this point in time, but it should be possible to implement output for more than one instrument.
 
 I extract the time signature and metronome markings, but at the moment, do not use it for anything. Future versions will find a way to incorporate these into the generations. 
 
