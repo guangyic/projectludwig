@@ -153,7 +153,7 @@ def generate(training_set, out_fn, epochs, midi_number, cwd):
         # Pruning #1: Smoothing measure
         curr_rules = prune_rules(curr_rules)
 
-        # Get notes from grammar and chords
+        # Get notes from rules and chords
         curr_notes = unparse_rules(curr_rules, curr_chords)
 
         # Pruning #2: Remove notes that are too close together or repeated
