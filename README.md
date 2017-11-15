@@ -30,12 +30,34 @@ Finally, I added "S" and "T" as a further joke, because if you take the initials
 
 
 ### Machine Learning and Deep Learning
-Neural networks were inspired by the brain. Just as a primer, a neuron is the basic building block of the brain. These neurons carry information everywhere through networks. The sum of all these neuronal networks is what we call the brain. Here is an example of how two neurons work together to pass information, and a stained image of what a neuron network looks like (images from [Khan Academy](https://www.khanacademy.org/science/biology/human-biology/neuron-nervous-system/a/overview-of-neuron-structure-and-function) and [Every Stock Photo](http://www.everystockphoto.com/photo.php?imageId=309897
-), respectively)
+Neural networks were inspired by the brain. Just as a primer, a neuron is the basic building block of the brain. These neurons carry information everywhere through networks. The sum of all these neuronal networks is what we call the brain. Here is an example of how two neurons work together to pass information, and a stained image of what a neuron network looks like (images from [Khan Academy](https://www.khanacademy.org/science/biology/human-biology/neuron-nervous-system/a/overview-of-neuron-structure-and-function) and [Every Stock Photo](http://www.everystockphoto.com/photo.php?imageId=309897), respectively)
 ![Neuron](https://github.com/guangyic/projectludwig/blob/master/siteelements/neuron1.png?raw=true)
 ![Neuron Network](https://github.com/guangyic/projectludwig/blob/master/siteelements/neuron2.png?raw=true)
 
+As a point of reference, the largest neural network implementations that are currently being used number around  thousands or tens of thousands of neurons; the human brain contains 86,000,000,000 (86 billion) neurons. 
+
 #### Classical Neural Networks and Long-short Term Memory (LSTM)
+The diagram below shows a classical neural network ([Image Source](https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/300px-Colored_neural_network.svg.png)). The basic neural network has one input layer, one hidden layer, and one output layer. The hidden layer is where all the training happens.
+![Classical Neural Network](https://github.com/guangyic/projectludwig/blob/master/siteelements/classicalneural.png?raw=true)
+
+Any classical neural network that has more than one hidden layer, by definition, is considered deep learning. The issue with basic neural networks is that it has a memory problem. As an example, someone is trying to produce some text based on a book. In English, we learned that nouns, pronouns, and verbs belong to specific parts of a sentence. Here is a simple sentence:
+> Dogs chase cats
+> (Noun-verb-noun)
+
+Using our own memory, we know that the verb comes after the noun, and then the next noun comes after the verb. However, training the neural network without a sense of memory may produce something like this:
+
+> Dogs dogs dogs dogs cats cats chase cats chase dogs chase chase dogs
+
+How do we solve this problem? This is where recursive neural networks come in ([Image Source](http://colah.github.io/posts/2015-08-Understanding-LSTMs))
+
+![RNN](https://github.com/guangyic/projectludwig/blob/master/siteelements/rnn.png?raw=true)
+
+A recursive neural network (RNN) takes the output and reinserts it into the model as an input. Using this, the model gains a sense of memory and is able to draw context out of the input. An LSTM is a special type of RNN that solves an issue called the long-term dependency problem. [Colah](http://colah.github.io/posts/2015-08-Understanding-LSTMs/) does a fantastic job explaining the advntages of LSTMs. For my purposes here, I will just say that music generation requires the specialized LSTM due to how long musical phrases can be. 
+
+---
+I believe that should be enough background behind what questions I am looking to answer, and how I go about implementing this project. The following provides information and instructions on how to replicate what I did. 
+
+Happy music generation!
 
 ---
 ## __Preparation__
