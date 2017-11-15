@@ -29,13 +29,13 @@
 - random
 - sys
 
-### _Required Non-Standard Python Packages_
-- [Keras](https://keras.io)
-- [MuseScore](https://musescore.org)
-- [music21](http://web.mit.edu/music21/)
-- [NumPy](http://www.numpy.org)
-- [PyGame](https://www.pygame.org/news)
-- [TensorFlow](https://www.tensorflow.org)
+### _Required Non-Standard Python Packages (version numbers I used included)_
+- [Keras](https://keras.io) ver 2.0.8
+- [MuseScore](https://musescore.org) ver 2.1.0 rev 871c8ce
+- [music21](http://web.mit.edu/music21/) ver 4.1.0
+- [NumPy](http://www.numpy.org) ver 1.13.3
+- [PyGame](https://www.pygame.org/news) ver 1.9.3
+- [TensorFlow](https://www.tensorflow.org) ver 1.3.0
 
 ---
 ## __Implementation__
