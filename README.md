@@ -1,12 +1,42 @@
 # Project Ludwig: Music Generation through Deep Learning
 ---
 ## __Introduction__
+Recently, machine learning and artificial intelligence has gotten a great deal of attention in the media. Other words that are usually heard in the same breath are deep learning, neural networks, and big data. With this focus on this subset of technology, companies and independent people have designed and implemented them to various degrees. Here are some of the most famous examples that may come to mind:
+- [Alexa](https://www.technologyreview.com/s/608571/alexa-understand-me/)
+- [AlphaGo](https://deepmind.com/research/alphago/)
+- [Deep Blue Chess AI](https://www.wired.com/2017/05/what-deep-blue-tells-us-about-ai-in-2017/)
+
+With my background in neuroscience and classical music, I latched on to the subset of people that are interested in  machine-generated music. The most important questions I wonder about are:
+1. What purpose does music serve humanity, if any? 
+2. Is music inherently human?
+	* Can a machine learn to create music?
+	* Can the music a machine composes evoke the same emotion that human music can?
+	* Can a machine learn to compose like the musical giants of the past and present? 
+		- Examples: Adele, Bach, Beethoven, Chopin, Coldplay, Gershwin, Taylor Swift
+
+### Ludwig S.T. Meinung
+With these questions in mind, I (as a fledgling data scientist) set out to work on my first machine-generated music project. Instead of simply naming my project using the "Deep _______" convention, I tried giving my model a name. I got this idea from an article (which I, of course, cannot find any more) about a scientist that gave his model a full name and tried using it in daily conversation. For demonstration purposes, I'm going to call his model "John Smith".
+> Person: Hey this music is pretty good. Who's it by?
+> Researcher: John Smith.
+> Person: Oh yeah? I've never heard of that guy!
+
+In a way, John Smith has passed the [Turing Test](https://en.wikipedia.org/wiki/Turing_test) of music, where the person listening could not tell that the music he likes has been machine generated. With this idea in mind, I wanted to achieve something similar with my own model. For inspiration, I turned to the given name of one of my heroes, [Ludwig van Beethoven](https://www.biography.com/people/ludwig-van-beethoven-9204862). (Photo credit goes to [ClassicFM](http://www.classicfm.com/composers/beethoven/guides/reasons-love-beethoven/))
 
 ![Beethoven](https://github.com/guangyic/projectludwig/blob/master/siteelements/beethoven.png?raw=true)
 
-![Neuron](https://github.com/guangyic/projectludwig/blob/master/siteelements/neuron1.png?raw=true)
+The last word, "Meinung", is the German word for mind or soul, which resonated with me due to the philosophical(?) nature of the question "is music inherently human?" from above. 
 
+Finally, I added "S" and "T" as a further joke, because if you take the initials, it spells "L.S.T.M", which stands for long-short term memory, which is the deep learning model I use for this project. I will go into what LSTM is below.
+
+
+### Machine Learning and Deep Learning
+Neural networks were inspired by the brain. Just as a primer, a neuron is the basic building block of the brain. These neurons carry information everywhere through networks. The sum of all these neuronal networks is what we call the brain. Here is an example of how two neurons work together to pass information, and a stained image of what a neuron network looks like (images from [Khan Academy](https://www.khanacademy.org/science/biology/human-biology/neuron-nervous-system/a/overview-of-neuron-structure-and-function) and [Every Stock Photo](http://www.everystockphoto.com/photo.php?imageId=309897
+), respectively)
+![Neuron](https://github.com/guangyic/projectludwig/blob/master/siteelements/neuron1.png?raw=true)
 ![Neuron Network](https://github.com/guangyic/projectludwig/blob/master/siteelements/neuron2.png?raw=true)
+
+#### Classical Neural Networks and Long-short Term Memory (LSTM)
+
 ---
 ## __Preparation__
 1. Create a folder named "midi" in your working directory
@@ -222,3 +252,6 @@ I extract the time signature and metronome markings, but at the moment, do not u
 
 ---
 ## Conclusion
+This is an elementary implementation of deep learning with regards to musical training and production. Due to time constraints, I was not able to implement everything I had set out to do. Writing the rules for basic music theory (tonic-predominant-dominant-tonic) and variations of this proved difficult to do within the time frame, so the production rules are not as rigorous as I would like. I also outlined some of the areas I would like to improve above.
+
+With this said, I gained a great understanding of how neural networks work in a real world application, and I hope that anyone that wishes to learn from or improve this code feels free to do so.
